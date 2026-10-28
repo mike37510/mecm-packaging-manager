@@ -1,0 +1,84 @@
+# MECM Packaging Manager — ne pas versionner secrets, données d’instance, binaires
+
+# --- Secrets / environnement ---
+.env
+.env.*
+!.env.example
+config/*.local.php
+!config/*.local.php.example
+
+# --- Dépendances ---
+vendor/
+
+# --- Données applicatives (JSON runtime : users, VT, MECM, VM, catalogues…) ---
+storage/data/*
+!storage/data/.gitkeep
+
+# --- Installateurs, ZIP, jobs, logs, cache, backups, BIOS configs ---
+storage/packages/*
+!storage/packages/.gitkeep
+storage/exports/*
+!storage/exports/.gitkeep
+storage/jobs/*
+!storage/jobs/.gitkeep
+storage/logs/*
+!storage/logs/.gitkeep
+storage/cache/*
+!storage/cache/.gitkeep
+storage/backups/*
+!storage/backups/.gitkeep
+storage/bios/*
+!storage/bios/.gitkeep
+!storage/bios/hp/
+!storage/bios/dell/
+!storage/bios/lenovo/
+storage/bios/hp/*
+!storage/bios/hp/.gitkeep
+storage/bios/dell/*
+!storage/bios/dell/.gitkeep
+storage/bios/lenovo/*
+!storage/bios/lenovo/.gitkeep
+
+# Ancienne config VM globale
+storage/data/vm_config.json
+storage/data/vm_config.json.migrated
+
+# --- Uploads icônes ---
+public/assets/uploads/icons/*
+!public/assets/uploads/icons/.gitkeep
+
+# --- Volume Docker hôte + snapshots locaux ---
+docker-data/
+backup/
+
+# --- Binaires constructeur BIOS (licences — ne pas redistribuer) ---
+resources/bios/hp/Modules/
+resources/bios/dell/tools/
+resources/bios/lenovo/Lenovo.BIOS.Config/
+
+# --- Archives générées ---
+public/downloads/*
+!public/downloads/.gitkeep
+public/assets/mecm-packaging-manager-*-git-ready.zip
+*.tar.gz
+*.zip
+!examples/**/*.zip
+*.sql
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_rsa.pub
+*.crt
+
+# --- Outils / IDE / OS ---
+.phpunit.cache/
+.phpunit.result.cache
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+.cursor/

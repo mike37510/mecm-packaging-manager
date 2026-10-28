@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Serve existing files directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+
+# Large installer uploads (mod_php)
+<IfModule mod_php.c>
+  php_value upload_max_filesize 1024M
+  php_value post_max_size 1100M
+  php_value max_execution_time 3600
+  php_value max_input_time 3600
+  php_value memory_limit 512M
+</IfModule>

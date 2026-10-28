@@ -1,0 +1,66 @@
+{
+    "format": "sccm-pf-software-export",
+    "version": 1,
+    "source": {
+        "name": "7-Zip"
+    },
+    "software": {
+        "name": "7-Zip",
+        "publisher": "Igor Pavlov",
+        "category": "Compression",
+        "description": "7-Zip archiver — official x64 MSI via GitHub ip7z/7zip.",
+        "current_version": "26.02",
+        "update_frequency_days": 30,
+        "download_url": "https://github.com/ip7z/7zip/releases/",
+        "version_check_url": "https://github.com/ip7z/7zip/releases/",
+        "documentation_url": "https://www.7-zip.org/",
+        "detection_method": "github",
+        "architecture": "x64",
+        "installer_type": "msi"
+    },
+    "procedure": {
+        "name": "7-Zip — procedure",
+        "notes": "Official 7-Zip x64 MSI. After import: Sync to download the installer, then generate the ZIP.",
+        "steps": [
+            {
+                "type": "install_command",
+                "label": "Silent install",
+                "sort_order": 1,
+                "enabled": true,
+                "on_failure": "stop",
+                "payload": {
+                    "command": "7z2602-x64.msi",
+                    "silent_args": "/qn /norestart",
+                    "working_dir": ".",
+                    "timeout_sec": 600,
+                    "success_paths": "C:\\Program Files\\7-Zip\\7z.exe"
+                }
+            },
+            {
+                "type": "uninstall_command",
+                "label": "Silent uninstall",
+                "sort_order": 2,
+                "enabled": true,
+                "on_failure": "stop",
+                "payload": {
+                    "command": "msiexec.exe",
+                    "silent_args": "/x {PRODUCT_CODE} /qn /norestart",
+                    "product_code": null,
+                    "timeout_sec": 600,
+                    "pre_kill": null,
+                    "success_gone_paths": "C:\\Program Files\\7-Zip\\7z.exe"
+                }
+            },
+            {
+                "type": "note",
+                "label": "MSI context",
+                "sort_order": 3,
+                "enabled": true,
+                "on_failure": "stop",
+                "payload": {
+                    "text": "Official 7-Zip x64 MSI. The install command filename is updated by sync when a new GitHub release ships. Fill the MSI Product Code when known (MECM detection)."
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,59 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: image-mecm-pkg-manager
+    container_name: mecm-pkg-manager
+    restart: unless-stopped
+    pull_policy: build
+    # Entrypoint lu depuis le projet monté (modifs docker/entrypoint.sh sans rebuild)
+    entrypoint: ["/bin/bash", "/var/www/html/docker/entrypoint.sh"]
+    command: ["apache2-foreground"]
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      APP_DEBUG: ${APP_DEBUG:-0}
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@mecmpackagingmanager.com}
+      # Hash bcrypt démo public ($$ → $ dans le conteneur) — surcharger via .env en prod
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:-$$2y$$10$$qJhPG5rRNt1vsGw4Wr0BtOggKz1jFtPS6tdxTxVOHlGHhIeYgUMBS}
+      ADMIN_DISPLAY_NAME: ${ADMIN_DISPLAY_NAME:-admin}
+      TEST_VM_HOST: ${TEST_VM_HOST:-192.168.1.1}
+      TEST_VM_PORT: ${TEST_VM_PORT:-22}
+      TEST_VM_USER: ${TEST_VM_USER:-admin}
+      TEST_VM_PASSWORD: ${TEST_VM_PASSWORD:-admin}
+      RUN_MIGRATIONS: ${RUN_MIGRATIONS:-1}
+      ENABLE_SSH: ${ENABLE_SSH:-1}
+      SSH_USER: ${SSH_USER:-admin}
+      SSH_PASSWORD: "${SSH_PASSWORD:-admin}"
+      ENABLE_RENEWAL_CRON: ${ENABLE_RENEWAL_CRON:-1}
+      RENEWAL_MAIL_CRON: ${RENEWAL_MAIL_CRON:-0 8 * * *}
+      TZ: Europe/Paris
+      PHP_INI_DIR: /usr/local/etc/php
+    ports:
+      - "${APP_PUBLISH_PORT:-80}:80"
+      - "${SSH_PUBLISH_PORT:-2222}:22"
+    volumes:
+      # 1) Projet entier persisté sur l'hôte (code, templates, config, …)
+      - .:/var/www/html
+      # 2) Données runtime déjà sur l'hôte (prioritaires sur storage/* du projet)
+      - ${HOST_DATA_ROOT:-./docker-data}/data:/var/www/html/storage/data
+      - ${HOST_DATA_ROOT:-./docker-data}/packages:/var/www/html/storage/packages
+      - ${HOST_DATA_ROOT:-./docker-data}/exports:/var/www/html/storage/exports
+      - ${HOST_DATA_ROOT:-./docker-data}/bios:/var/www/html/storage/bios
+      - ${HOST_DATA_ROOT:-./docker-data}/backups:/var/www/html/storage/backups
+      - ${HOST_DATA_ROOT:-./docker-data}/logs:/var/www/html/storage/logs
+      - ${HOST_DATA_ROOT:-./docker-data}/cache:/var/www/html/storage/cache
+      - ${HOST_DATA_ROOT:-./docker-data}/icons:/var/www/html/public/assets/uploads/icons
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1/login"]
+      interval: 30s
+      timeout: 5s
+      retries: 10
+      start_period: 45s
+    networks:
+      - sccm_pf
+
+networks:
+  sccm_pf:
+    driver: bridge

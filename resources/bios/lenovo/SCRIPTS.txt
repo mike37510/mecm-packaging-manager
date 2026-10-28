@@ -1,0 +1,28 @@
+Scripts PowerShell
+==================
+
+À exécuter sur un PC Lenovo Think* (admin) avec le module Lenovo.BIOS.Config
+(TBCT v2), placé dans Lenovo.BIOS.Config\ (voir PLACE_MODULE_HERE.txt) ou
+installé sur le poste.
+
+---------------------------------------------------------------------------
+Appliquer une config BIOS
+Apply-LenovoBiosConfig.ps1
+
+Applique un fichier .ini via Import-LnvWmiSettings + Save-LnvWmiSettings.
+Peut aussi définir un mot de passe Supervisor (aléatoire ou fixe) et écrire
+un log. Script principal pour MECM / séquence de tâches.
+
+---------------------------------------------------------------------------
+Supprimer le mot de passe Supervisor
+Clear-LenovoBiosSupervisorPassword.ps1
+
+Efface le mot de passe Supervisor (Update-LnvPassword -Type pap). Nécessite
+le MDP actuel.
+
+---------------------------------------------------------------------------
+Exporter les options BIOS
+Get-LenovoBiosAllSettings.ps1
+
+Lecture seule : génère un .ini réplicable avec Export-LnvWmiSettings -NoKey
+(inventaire / base de config).

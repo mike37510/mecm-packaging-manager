@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Example local overrides for test VM (copy to test_vm.local.php).
+ *
+ * Droits recommandés (Apache www-data doit lire le fichier) :
+ *   chown root:www-data config/test_vm.local.php && chmod 640 config/test_vm.local.php
+ *
+ * @return array<string, mixed>
+ */
+return [
+    'password' => 'admin',
+    // 'host' => '192.168.1.1',
+    // 'port' => 22,
+    // 'username' => 'admin',
+];

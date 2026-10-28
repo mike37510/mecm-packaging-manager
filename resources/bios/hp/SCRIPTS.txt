@@ -1,0 +1,27 @@
+Scripts PowerShell
+==================
+
+À exécuter sur un PC HP (admin). Ils s’appuient sur la bibliothèque HP CMSL
+(voir Modules\ dans ce paquet, ou installation HPCMSL sur le poste).
+
+---------------------------------------------------------------------------
+Appliquer une config BIOS
+Apply-HPBiosConfig.ps1
+
+Lit un fichier .cfg (BCU) et applique les paramètres BIOS sur la machine.
+Peut aussi définir un mot de passe Setup (aléatoire ou fixe) et écrire un log.
+C’est le script principal pour un déploiement MECM / séquence de tâches.
+
+---------------------------------------------------------------------------
+Supprimer le mot de passe Setup
+Clear-HPBiosSetupPassword.ps1
+
+Enlève le mot de passe administrateur BIOS. Il faut connaître le mot de passe
+actuel. Utile en test, reprise ou avant réaffectation d’une machine.
+
+---------------------------------------------------------------------------
+Lister les options BIOS
+Get-HPBiosAllSettings.ps1
+
+Lecture seule : affiche (ou exporte) toutes les options BIOS et leur valeur
+actuelle. Sert à inventaire, contrôle ou préparer un .cfg.

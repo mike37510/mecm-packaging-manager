@@ -1,0 +1,27 @@
+Scripts PowerShell
+==================
+
+À exécuter sur un PC Dell (admin) avec Dell Command | Configure (cctk.exe)
+installé, ou cctk.exe placé dans tools\ (voir tools\PLACE_CCTK_HERE.txt).
+
+---------------------------------------------------------------------------
+Appliquer une config BIOS
+Apply-DellBiosConfig.ps1
+
+Applique un fichier .ini via cctk -i. Peut aussi définir un mot de passe Setup
+(aléatoire ou fixe) et écrire un log. Script principal pour MECM / séquence
+de tâches.
+
+---------------------------------------------------------------------------
+Supprimer le mot de passe Setup
+Clear-DellBiosSetupPassword.ps1
+
+Efface le mot de passe administrateur BIOS (cctk --setuppwd=). Nécessite le
+MDP actuel.
+
+---------------------------------------------------------------------------
+Exporter les options BIOS
+Get-DellBiosAllSettings.ps1
+
+Lecture seule : génère un .ini réplicable avec cctk -o (inventaire / base
+de config).
